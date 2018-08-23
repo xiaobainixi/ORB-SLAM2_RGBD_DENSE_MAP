@@ -30,8 +30,5 @@ Before all the cmd, **DONOT** forget to download the Vocabulary form the [origin
 
 # What are modified:
 
-* changing the vocabulary loading method into binary mod
+* adding a pointcloud viewer with loopclosing ( realized by adding a viewer thread )
 
-* adding a pointcloud viewer( realized by adding a viewer thread )
-
-* changing the CMakeLists.txt that all the executable files are placed in ./bin
