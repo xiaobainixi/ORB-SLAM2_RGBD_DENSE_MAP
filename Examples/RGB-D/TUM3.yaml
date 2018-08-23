@@ -67,3 +67,6 @@ Viewer.ViewpointY: -0.7
 Viewer.ViewpointZ: -1.8
 Viewer.ViewpointF: 500
 
+PointCloudMapping.Resolution: 0.01
+meank: 50
+thresh: 2.0
