@@ -7,7 +7,6 @@
 Before all the cmd, **DONOT** forget to download the Vocabulary form the [origin repo](https://github.com/raulmur/ORB_SLAM2) and place it into dir ./Vocabulary
 
 ```bash
-     cd YourDirectory/ORBSLAM2_with_pointcloud_map
      chmod +x build.sh
      ./build.sh
 ```
@@ -15,7 +14,6 @@ Before all the cmd, **DONOT** forget to download the Vocabulary form the [origin
 ### only build the ORB_SLAM2 mode with pcl
 
 ```bash
-    cd YourDirectory/ORBSLAM2_with_pointcloud_map/ORB_SLAM2_modified
     mkdir build
     cd build
     cmake ..
