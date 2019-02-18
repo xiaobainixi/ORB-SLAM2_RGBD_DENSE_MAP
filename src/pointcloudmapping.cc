@@ -179,37 +179,38 @@ void PointCloudMapping::save()
 	cout<<"globalMap save finished"<<endl;
 }
 void PointCloudMapping::updatecloud()
+{
+	if(!cloudbusy)
+	{
+		loopbusy = true;
+        cout<<"startloopmappoint"<<endl;
+        PointCloud::Ptr tmp1(new PointCloud);
+        for (int i=0;i<currentvpKFs.size();i++)
         {
-            if(!cloudbusy){
-          loopbusy = true;
-          cout<<"startloopmappoint"<<endl;
-          PointCloud::Ptr tmp1(new PointCloud);
-          for (int i=0;i<currentvpKFs.size();i++)
-          {
-         for (int j=0;j<pointcloud.size();j++)
-         {   
-            if(pointcloud[j].pcID==currentvpKFs[i]->mnFrameId) 
+        	for (int j=0;j<pointcloud.size();j++)
             {   
-              Eigen::Isometry3d T = ORB_SLAM2::Converter::toSE3Quat(currentvpKFs[i]->GetPose() );
-              PointCloud::Ptr cloud(new PointCloud);
-                      pcl::transformPointCloud( *pointcloud[j].pcE, *cloud, T.inverse().matrix());
-              *tmp1 +=*cloud;
+            	if(pointcloud[j].pcID==currentvpKFs[i]->mnFrameId) 
+            	{   
+                	Eigen::Isometry3d T = ORB_SLAM2::Converter::toSE3Quat(currentvpKFs[i]->GetPose() );
+                	PointCloud::Ptr cloud(new PointCloud);
+                    pcl::transformPointCloud( *pointcloud[j].pcE, *cloud, T.inverse().matrix());
+              		*tmp1 +=*cloud;
               
-                  //cout<<"第pointcloud"<<j<<"与第vpKFs"<<i<<"匹配"<<endl;
-              continue;
-              }
-         }
-          }
-                 cout<<"finishloopmap"<<endl;
-                 PointCloud::Ptr tmp2(new PointCloud());
-                 voxel.setInputCloud( tmp1 );
-                 voxel.filter( *tmp2 );
-                 globalMap->swap( *tmp2 );
-                 //viewer.showCloud( globalMap );
-                  loopbusy = false;
-                  //cloudbusy = true;
-                  loopcount++;
+                    //cout<<"第pointcloud"<<j<<"与第vpKFs"<<i<<"匹配"<<endl;
+              		continue;
+              	}
+         	}
+		}
+        cout<<"finishloopmap"<<endl;
+        PointCloud::Ptr tmp2(new PointCloud());
+        voxel.setInputCloud( tmp1 );
+        voxel.filter( *tmp2 );
+        globalMap->swap( *tmp2 );
+        //viewer.showCloud( globalMap );
+        loopbusy = false;
+        //cloudbusy = true;
+        loopcount++;
 
-             //*globalMap = *tmp1;
-              }
-       }
+        //*globalMap = *tmp1;
+	}
+}
