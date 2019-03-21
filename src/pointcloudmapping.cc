@@ -183,23 +183,23 @@ void PointCloudMapping::updatecloud()
 	if(!cloudbusy)
 	{
 		loopbusy = true;
-        cout<<"startloopmappoint"<<endl;
+		cout<<"startloopmappoint"<<endl;
         PointCloud::Ptr tmp1(new PointCloud);
-        for (int i=0;i<currentvpKFs.size();i++)
-        {
-        	for (int j=0;j<pointcloud.size();j++)
-            {   
-            	if(pointcloud[j].pcID==currentvpKFs[i]->mnFrameId) 
-            	{   
-                	Eigen::Isometry3d T = ORB_SLAM2::Converter::toSE3Quat(currentvpKFs[i]->GetPose() );
-                	PointCloud::Ptr cloud(new PointCloud);
-                    pcl::transformPointCloud( *pointcloud[j].pcE, *cloud, T.inverse().matrix());
-              		*tmp1 +=*cloud;
-              
-                    //cout<<"第pointcloud"<<j<<"与第vpKFs"<<i<<"匹配"<<endl;
-              		continue;
-              	}
-         	}
+		for (int i=0;i<currentvpKFs.size();i++)
+		{
+		    for (int j=0;j<pointcloud.size();j++)
+		    {   
+				if(pointcloud[j].pcID==currentvpKFs[i]->mnFrameId) 
+				{   
+					Eigen::Isometry3d T = ORB_SLAM2::Converter::toSE3Quat(currentvpKFs[i]->GetPose() );
+					PointCloud::Ptr cloud(new PointCloud);
+					pcl::transformPointCloud( *pointcloud[j].pcE, *cloud, T.inverse().matrix());
+					*tmp1 +=*cloud;
+
+					//cout<<"第pointcloud"<<j<<"与第vpKFs"<<i<<"匹配"<<endl;
+					continue;
+				}
+			}
 		}
         cout<<"finishloopmap"<<endl;
         PointCloud::Ptr tmp2(new PointCloud());
